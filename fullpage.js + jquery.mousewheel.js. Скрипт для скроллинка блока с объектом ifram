@@ -1,0 +1,21 @@
+//Есть один момент у плагина fullpage.js - он не скроллит блоки с iframe
+//Для правильного определения прокрутки колесиком используется плагин jquery.mousewheel.js
+
+$('#fullpage').fullpage({
+        sectionSelector: '.block',
+        menu: '.menu-pagination__list',
+        anchor: ['block1','block2','block3','block4','block5','block6','block7','block8','block9']
+        });
+$('#instagram-w').on('load', function () { //Ждем пока загрузиться iframe. В данном случае используется виджет inwidget для загрузки instagram ленты
+    var frame = $(this);
+    frame.contents().find('#widget').on('mousewheel', function (event, delta) { //Находим в iframe блок с id #widget и вешаем на него событие скролла
+        switch (parseFloat(delta)) {
+            case -1: // Определяем в какую сторону был сделан скролл
+               fullpage_api.moveTo('block5','4'); // с помощью api fullpage скроллим в нужную сторону
+               break;
+            case 1:
+                fullpage_api.moveTo('block3','2');
+                break;
+        }
+    });
+})
